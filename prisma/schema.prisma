@@ -1,0 +1,244 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Shop {
+  id            String   @id @default(cuid())
+  name          String
+  ownerName     String?
+  phone         String?
+  address       String?
+  plan          String   @default("Profissional")
+  planValue     Float    @default(149.90)
+  status        String   @default("Ativo")
+  dueDate       DateTime?
+  lastPayment   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  users           User[]
+  customers       Customer[]
+  serviceOrders   ServiceOrder[]
+  products        Product[]
+  cashSessions    CashSession[]
+  cashMovements   CashMovement[]
+  paymentHistory  PaymentHistory[]
+  activityLog     ActivityLog[]
+
+  @@map("shops")
+}
+
+model AdminUser {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  hashedPassword String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model PaymentHistory {
+  id        String   @id @default(cuid())
+  shopId    String
+  amount    Float
+  status    String
+  method    String?
+  notes     String?
+  dueDate   DateTime?
+  paidAt    DateTime?
+  createdAt DateTime @default(now())
+
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@index([shopId])
+  @@map("payment_history")
+}
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  shopId      String
+  action      String
+  description String
+  createdAt   DateTime @default(now())
+
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@index([shopId])
+  @@map("activity_logs")
+}
+
+model SystemConfig {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+
+  @@map("system_config")
+}
+
+model User {
+  id               String    @id @default(cuid())
+  name             String
+  email            String    @unique
+  hashedPassword   String
+  role             String    @default("user")
+  shopId           String
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@index([shopId])
+  @@index([resetToken])
+  @@map("users")
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  name         String
+  phone        String?
+  motorcycle   String?
+  model        String?
+  plate        String?
+  observations String?
+  shopId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  shop          Shop           @relation(fields: [shopId], references: [id])
+  serviceOrders ServiceOrder[]
+
+  @@index([shopId])
+  @@map("customers")
+}
+
+model ServiceOrder {
+  id              String    @id @default(cuid())
+  orderNumber     Int
+  customerId      String
+  motorcycle      String?
+  model           String?
+  plate           String?
+  description     String
+  partsUsed       String?
+  laborCost       Float     @default(0)
+  partsCost       Float     @default(0)
+  discount        Float     @default(0)
+  totalCost       Float     @default(0)
+  status          String    @default("Recebida")
+  paymentMethod   String?
+  entryDate       DateTime  @default(now())
+  estimatedDate   DateTime?
+  completedDate   DateTime?
+  shopId          String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  shop     Shop     @relation(fields: [shopId], references: [id])
+  items    ServiceOrderItem[]
+
+  @@unique([shopId, orderNumber])
+  @@index([shopId])
+  @@index([customerId])
+  @@index([status])
+  @@map("service_orders")
+}
+
+model ServiceOrderItem {
+  id             String @id @default(cuid())
+  serviceOrderId String
+  productId      String?
+  description    String
+  quantity       Int    @default(1)
+  unitPrice      Float  @default(0)
+  totalPrice     Float  @default(0)
+
+  serviceOrder ServiceOrder @relation(fields: [serviceOrderId], references: [id])
+  product      Product?     @relation(fields: [productId], references: [id])
+
+  @@index([serviceOrderId])
+  @@map("service_order_items")
+}
+
+model Product {
+  id                    String   @id @default(cuid())
+  name                  String
+  barcode               String?
+  description           String?
+  category              String?
+  compatibleMotorcycles String?
+  quantity              Int      @default(0)
+  minQuantity           Int      @default(5)
+  costPrice             Float    @default(0)
+  salePrice             Float    @default(0)
+  shopId                String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  shop              Shop               @relation(fields: [shopId], references: [id])
+  serviceOrderItems ServiceOrderItem[]
+  stockMovements    StockMovement[]
+
+  @@index([shopId])
+  @@index([barcode, shopId])
+  @@map("products")
+}
+
+model StockMovement {
+  id        String   @id @default(cuid())
+  productId String
+  type      String
+  quantity  Int
+  reason    String?
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([productId])
+  @@map("stock_movements")
+}
+
+model CashSession {
+  id            String    @id @default(cuid())
+  openingAmount Float     @default(0)
+  closingAmount Float?
+  expectedAmount Float?
+  difference    Float?
+  status        String    @default("open")
+  openedAt      DateTime  @default(now())
+  closedAt      DateTime?
+  shopId        String
+
+  shop       Shop           @relation(fields: [shopId], references: [id])
+  movements  CashMovement[]
+
+  @@index([shopId])
+  @@map("cash_sessions")
+}
+
+model CashMovement {
+  id            String   @id @default(cuid())
+  type          String
+  amount        Float
+  description   String
+  paymentMethod String?
+  cashSessionId String?
+  shopId        String
+  createdAt     DateTime @default(now())
+
+  cashSession CashSession? @relation(fields: [cashSessionId], references: [id])
+  shop        Shop         @relation(fields: [shopId], references: [id])
+
+  @@index([shopId])
+  @@index([cashSessionId])
+  @@map("cash_movements")
+}
