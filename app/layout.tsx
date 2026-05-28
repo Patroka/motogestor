@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 export const metadata = {
   title: 'MotoGestor Pro',
   description: 'Sistema de gestão para oficinas de motos',
-  metadataBase: new URL(process.env.NEXTAUTH_URL || 'https://motogestor-pro.vercel.app'),
+  metadataBase: new URL(process.env.NEXTAUTH_URL || 'http://localhost:3000'),
   manifest: '/manifest.json',
   applicationName: 'MotoGestor Pro',
   appleWebApp: {

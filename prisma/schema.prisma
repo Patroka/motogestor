@@ -7,9 +7,6 @@ datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
 }
-
-model Shop {
-  id            String   @id @default(cuid())
   name          String
   ownerName     String?
   phone         String?
