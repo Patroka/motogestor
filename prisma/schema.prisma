@@ -7,6 +7,9 @@ datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
 }
+
+model Shop {
+  id            String   @id @default(cuid())
   name          String
   ownerName     String?
   phone         String?
@@ -206,18 +209,18 @@ model StockMovement {
 }
 
 model CashSession {
-  id            String    @id @default(cuid())
-  openingAmount Float     @default(0)
-  closingAmount Float?
+  id             String    @id @default(cuid())
+  openingAmount  Float     @default(0)
+  closingAmount  Float?
   expectedAmount Float?
-  difference    Float?
-  status        String    @default("open")
-  openedAt      DateTime  @default(now())
-  closedAt      DateTime?
-  shopId        String
+  difference     Float?
+  status         String    @default("open")
+  openedAt       DateTime  @default(now())
+  closedAt       DateTime?
+  shopId         String
 
-  shop       Shop           @relation(fields: [shopId], references: [id])
-  movements  CashMovement[]
+  shop      Shop           @relation(fields: [shopId], references: [id])
+  movements CashMovement[]
 
   @@index([shopId])
   @@map("cash_sessions")
