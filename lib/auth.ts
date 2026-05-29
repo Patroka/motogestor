@@ -75,6 +75,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       if (session?.user) {
+        // Nunca expor email no /api/auth/session — fica apenas no JWT (cookie HttpOnly)
+        delete session.user.email;
         (session.user as any).id = token?.sub;
         (session.user as any).shopId = token?.shopId;
         (session.user as any).shopName = token?.shopName;
