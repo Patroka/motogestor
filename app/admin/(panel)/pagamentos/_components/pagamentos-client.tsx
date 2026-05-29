@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   CreditCard,
@@ -213,6 +213,7 @@ export default function PagamentosClient() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Registrar Pagamento - {selectedShop?.name}</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
@@ -248,6 +249,7 @@ export default function PagamentosClient() {
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>Alterar Vencimento - {selectedShop?.name}</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>

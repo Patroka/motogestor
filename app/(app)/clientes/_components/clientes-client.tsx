@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   Users,
   Plus,
@@ -262,6 +262,7 @@ export default function ClientesClient() {
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editing ? 'Editar Cliente' : 'Novo Cliente'}</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
@@ -298,6 +299,7 @@ export default function ClientesClient() {
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Historico - {selectedCustomer?.name}</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             {(!selectedCustomer?.serviceOrders || selectedCustomer.serviceOrders.length === 0) && (
@@ -382,6 +384,7 @@ export default function ClientesClient() {
               <MessageCircle className="w-5 h-5 text-green-500" />
               WhatsApp - {selectedCustomer?.name}
             </DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <a

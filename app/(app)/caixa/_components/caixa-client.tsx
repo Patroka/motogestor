@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   DollarSign,
@@ -665,7 +665,8 @@ export default function CaixaClient() {
       {/* Open Dialog */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle>Abrir Caixa</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Abrir Caixa</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription></DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Valor Inicial (R$)</Label>
@@ -686,7 +687,8 @@ export default function CaixaClient() {
       {/* Close Dialog */}
       <Dialog open={closeDialog} onOpenChange={setCloseDialog}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle>Fechar Caixa</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Fechar Caixa</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription></DialogHeader>
           <div className="space-y-4">
             <div className="space-y-1 text-sm">
               <div className="flex justify-between"><span>Abertura:</span><span className="font-mono">{formatCurrency(data?.session?.openingAmount)}</span></div>
@@ -737,7 +739,8 @@ export default function CaixaClient() {
       {/* Delete Confirmation Dialog */}
       <Dialog open={!!confirmDelete} onOpenChange={() => setConfirmDelete(null)}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle className="flex items-center gap-2 text-destructive"><AlertTriangle className="w-5 h-5" /> Excluir Caixa</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle className="flex items-center gap-2 text-destructive"><AlertTriangle className="w-5 h-5" /> Excluir Caixa</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription></DialogHeader>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
               Tem certeza que deseja excluir este caixa? Todas as movimentações registradas nele serão perdidas.
@@ -773,7 +776,8 @@ export default function CaixaClient() {
         }
       }}>
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>Registrar Movimento</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Registrar Movimento</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription></DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-2">
               <Button

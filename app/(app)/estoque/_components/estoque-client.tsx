@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -357,6 +357,7 @@ export default function EstoqueClient() {
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editing ? 'Editar Produto' : 'Novo Produto'}</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
@@ -482,6 +483,7 @@ export default function EstoqueClient() {
             <DialogTitle>
               {stockForm?.action === 'entrada' ? 'Entrada de Estoque' : 'Saída de Estoque'} - {stockProduct?.name ?? ''}
             </DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">Estoque atual: <span className="font-bold">{stockProduct?.quantity ?? 0}</span></p>

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Building2,
@@ -304,6 +304,7 @@ export default function OficinasClient() {
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Criar Nova Oficina</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
@@ -357,6 +358,7 @@ export default function OficinasClient() {
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Editar Oficina</DialogTitle>
+          <DialogDescription className="sr-only">Formulário de ação</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
